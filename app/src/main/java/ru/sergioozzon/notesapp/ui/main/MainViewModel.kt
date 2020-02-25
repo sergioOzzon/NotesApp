@@ -9,11 +9,11 @@ import ru.sergioozzon.notesapp.ui.base.BaseViewModel
 
 class MainViewModel : BaseViewModel<List<Note>?, MainViewState>() {
 
-    private val notesObserver = object : Observer<NoteResult>{
+    private val notesObserver = object : Observer<NoteResult> {
         override fun onChanged(t: NoteResult?) {
             t ?: return
 
-            when(t){
+            when (t) {
                 is NoteResult.Success<*> -> {
                     viewStateLiveData.value = MainViewState(notes = t.data as? List<Note>)
                 }
@@ -26,7 +26,7 @@ class MainViewModel : BaseViewModel<List<Note>?, MainViewState>() {
 
     private val repositoryNotes = NotesRepository.getNotes()
 
-    init{
+    init {
         viewStateLiveData.value = MainViewState()
         repositoryNotes.observeForever(notesObserver)
     }

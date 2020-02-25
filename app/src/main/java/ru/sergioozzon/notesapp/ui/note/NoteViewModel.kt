@@ -12,17 +12,17 @@ class NoteViewModel : BaseViewModel<Note?, NoteViewState>() {
         viewStateLiveData.value = NoteViewState()
     }
 
-    private var  pendingNote: Note? = null
+    private var pendingNote: Note? = null
 
-    fun save(note: Note){
+    fun save(note: Note) {
         pendingNote = note
     }
 
-    fun loadNote(noteId: String){
+    fun loadNote(noteId: String) {
         NotesRepository.getNoteById(noteId).observeForever(object : Observer<NoteResult> {
             override fun onChanged(t: NoteResult?) {
                 t ?: return
-                when(t){
+                when (t) {
                     is NoteResult.Success<*> -> {
                         viewStateLiveData.value = NoteViewState(note = t.data as Note)
                     }
@@ -34,7 +34,7 @@ class NoteViewModel : BaseViewModel<Note?, NoteViewState>() {
         })
     }
 
-    override fun onCleared(){
+    override fun onCleared() {
         pendingNote?.let {
 
             NotesRepository.saveNote(it)

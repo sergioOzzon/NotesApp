@@ -18,13 +18,13 @@ class FireStoreProvider : RemoteDataProvider {
 
     override fun subscribeToAllNotes(): LiveData<NoteResult> {
         val result = MutableLiveData<NoteResult>()
-        noteReference.addSnapshotListener{ querySnapshot, firebaseFirestoreException ->
+        noteReference.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             firebaseFirestoreException?.let {
                 result.value = NoteResult.Error(firebaseFirestoreException)
             } ?: let {
-                querySnapshot?.let {snapshot ->
+                querySnapshot?.let { snapshot ->
                     val notes = mutableListOf<Note>()
-                    for (doc: QueryDocumentSnapshot in snapshot){
+                    for (doc: QueryDocumentSnapshot in snapshot) {
                         notes.add(doc.toObject(Note::class.java))
                     }
                     result.value = NoteResult.Success(notes)
@@ -38,22 +38,22 @@ class FireStoreProvider : RemoteDataProvider {
     override fun getNoteById(id: String): LiveData<NoteResult> {
         val result = MutableLiveData<NoteResult>()
         noteReference.document(id).get()
-                .addOnSuccessListener { snapshot ->
-                    result.value = NoteResult.Success(snapshot.toObject(Note::class.java))
-                }.addOnFailureListener {
-                    result.value = NoteResult.Error(it)
-                }
+            .addOnSuccessListener { snapshot ->
+                result.value = NoteResult.Success(snapshot.toObject(Note::class.java))
+            }.addOnFailureListener {
+                result.value = NoteResult.Error(it)
+            }
         return result
     }
 
     override fun saveNote(note: Note): LiveData<NoteResult> {
         val result = MutableLiveData<NoteResult>()
         noteReference.document(note.id).set(note)
-                .addOnSuccessListener {
-                    result.value = NoteResult.Success(note)
-                }.addOnFailureListener {
-                    result.value = NoteResult.Error(it)
-                }
+            .addOnSuccessListener {
+                result.value = NoteResult.Success(note)
+            }.addOnFailureListener {
+                result.value = NoteResult.Error(it)
+            }
         return result
     }
 }

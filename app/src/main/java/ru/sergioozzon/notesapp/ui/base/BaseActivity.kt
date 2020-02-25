@@ -13,7 +13,7 @@ abstract class BaseActivity<T, S : BaseViewState<T>> : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(layoutRes)
         viewModel.getViewState().observe(this, object : Observer<S> {
-            override fun onChanged(t: S?){
+            override fun onChanged(t: S?) {
                 t ?: return
                 t.error?.let {
                     renderError(it)
@@ -27,16 +27,15 @@ abstract class BaseActivity<T, S : BaseViewState<T>> : AppCompatActivity() {
 
     abstract fun renderData(data: T)
 
-    private fun renderError(error: Throwable){
+    private fun renderError(error: Throwable) {
         error.message?.let {
             showError(it)
         }
     }
 
-    protected fun showError(error: String){
+    protected fun showError(error: String) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
     }
-
 
 
 }

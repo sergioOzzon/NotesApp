@@ -15,30 +15,32 @@ import ru.sergioozzon.notesapp.ui.base.BaseActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NoteActivity: BaseActivity<Note?, NoteViewState>(){
-    companion object{
+class NoteActivity : BaseActivity<Note?, NoteViewState>() {
+    companion object {
         private val EXTRA_NOTE = NoteActivity::class.java.name + "extra.NOTE"
         private const val DATE_TIME_FORMAT = "dd.MM.yy HH:mm"
 
-        fun start(context: Context, noteId: String? = null){
+        fun start(context: Context, noteId: String? = null) {
             val intent = Intent(context, NoteActivity::class.java)
             intent.putExtra(EXTRA_NOTE, noteId)
             context.startActivity(intent)
         }
     }
 
-    override val viewModel: NoteViewModel by lazy{
+    override val viewModel: NoteViewModel by lazy {
         ViewModelProvider(this).get(NoteViewModel::class.java)
     }
     override val layoutRes = R.layout.activity_note
     private var note: Note? = null
 
-    private val textChangeListener = object : TextWatcher{
+    private val textChangeListener = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
             saveNote()
         }
+
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
         }
+
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         }
     }
@@ -67,11 +69,11 @@ class NoteActivity: BaseActivity<Note?, NoteViewState>(){
         initView()
     }
 
-    private fun initView(){
-        note?.let {note ->
+    private fun initView() {
+        note?.let { note ->
             et_title.setText(note.title)
             et_body.setText(note.text)
-            val color = when(note.color){
+            val color = when (note.color) {
                 Note.Color.WHITE -> R.color.white
                 Note.Color.YELLOW -> R.color.yellow
                 Note.Color.GREEN -> R.color.green
@@ -87,17 +89,17 @@ class NoteActivity: BaseActivity<Note?, NoteViewState>(){
         et_body.addTextChangedListener(textChangeListener)
     }
 
-    fun saveNote(){
+    fun saveNote() {
         if (et_title.text == null || et_title.text!!.length < 3) return
 
         note = note?.copy(
-                title = et_title.text.toString(),
-                text = et_body.text.toString(),
-                lastChanged = Date()
+            title = et_title.text.toString(),
+            text = et_body.text.toString(),
+            lastChanged = Date()
         ) ?: Note(
-                UUID.randomUUID().toString(),
-                et_title.text.toString(),
-                et_body.text.toString()
+            UUID.randomUUID().toString(),
+            et_title.text.toString(),
+            et_body.text.toString()
         )
 
         note?.let {
@@ -105,7 +107,7 @@ class NoteActivity: BaseActivity<Note?, NoteViewState>(){
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when(item.itemId){
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         android.R.id.home -> {
             onBackPressed()
             true

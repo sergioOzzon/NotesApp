@@ -11,7 +11,7 @@ import ru.sergioozzon.notesapp.ui.note.NoteActivity
 
 class MainActivity : BaseActivity<List<Note>?, MainViewState>() {
 
-    override val viewModel : MainViewModel by lazy{
+    override val viewModel: MainViewModel by lazy {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
     override val layoutRes = R.layout.activity_main
@@ -22,12 +22,12 @@ class MainActivity : BaseActivity<List<Note>?, MainViewState>() {
         setContentView(R.layout.activity_main)
 
         rv_notes.layoutManager = LinearLayoutManager(this)
-        adapter = NotesRVAdapter{ note ->
+        adapter = NotesRVAdapter { note ->
             NoteActivity.start(this, note.id)
         }
         rv_notes.adapter = adapter
 
-        fab.setOnClickListener{
+        fab.setOnClickListener {
             NoteActivity.start(this)
         }
 

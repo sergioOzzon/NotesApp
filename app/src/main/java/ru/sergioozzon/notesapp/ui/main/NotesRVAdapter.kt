@@ -10,7 +10,8 @@ import kotlinx.android.synthetic.main.item_note.view.*
 import ru.sergioozzon.notesapp.R
 import ru.sergioozzon.notesapp.data.entity.Note
 
-class NotesRVAdapter(val onItemViewClick : ((Note) -> Unit)?= null) : RecyclerView.Adapter<NotesRVAdapter.ViewHolder>() {
+class NotesRVAdapter(val onItemViewClick: ((Note) -> Unit)? = null) :
+    RecyclerView.Adapter<NotesRVAdapter.ViewHolder>() {
 
     var notes: List<Note> = listOf()
         set(value) {
@@ -19,9 +20,9 @@ class NotesRVAdapter(val onItemViewClick : ((Note) -> Unit)?= null) : RecyclerVi
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            ViewHolder(
-                    LayoutInflater.from(parent.context).inflate(R.layout.item_note, parent, false)
-            )
+        ViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_note, parent, false)
+        )
 
     override fun getItemCount(): Int = notes.size
 
@@ -31,13 +32,13 @@ class NotesRVAdapter(val onItemViewClick : ((Note) -> Unit)?= null) : RecyclerVi
 
         fun bind(note: Note) = with(itemView) {
             //плохо для производительности, тк каждый раз при вызове bind будет вызываться findViewById
-            with(note){
+            with(note) {
                 tv_text.text = text
                 tv_title.text = title
 
             }
 
-            val color = when(note.color){
+            val color = when (note.color) {
                 Note.Color.WHITE -> R.color.white
                 Note.Color.YELLOW -> R.color.yellow
                 Note.Color.GREEN -> R.color.green
@@ -46,7 +47,12 @@ class NotesRVAdapter(val onItemViewClick : ((Note) -> Unit)?= null) : RecyclerVi
                 Note.Color.VIOLET -> R.color.violet
                 Note.Color.PINK -> R.color.pink
             }
-            (this as CardView).setCardBackgroundColor(ContextCompat.getColor(itemView.context, color))
+            (this as CardView).setCardBackgroundColor(
+                ContextCompat.getColor(
+                    itemView.context,
+                    color
+                )
+            )
 
             itemView.setOnClickListener { onItemViewClick?.invoke(note) }
         }
