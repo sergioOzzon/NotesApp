@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "868399583029",
+    "firebase_url": "https://notes-187b1.firebaseio.com",
+    "project_id": "notes-187b1",
+    "storage_bucket": "notes-187b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:868399583029:android:c140986a2621970a9e867c",
+        "android_client_info": {
+          "package_name": "ru.sergioozzon.notesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "868399583029-n9k6m51l3mrj9l3l5qtbko8gfuongqao.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlhrRJ4jzPrsfKabHWYR27pUIIJkSIGF8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "868399583029-n9k6m51l3mrj9l3l5qtbko8gfuongqao.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
