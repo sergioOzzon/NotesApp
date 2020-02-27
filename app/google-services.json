@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "868399583029",
-    "firebase_url": "https://notes-187b1.firebaseio.com",
-    "project_id": "notes-187b1",
-    "storage_bucket": "notes-187b1.appspot.com"
+    "project_number": "212944158673",
+    "firebase_url": "https://notesapp-c34b2.firebaseio.com",
+    "project_id": "notesapp-c34b2",
+    "storage_bucket": "notesapp-c34b2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:868399583029:android:c140986a2621970a9e867c",
+        "mobilesdk_app_id": "1:212944158673:android:ade11c61b1a23ae812aaf0",
         "android_client_info": {
           "package_name": "ru.sergioozzon.notesapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "868399583029-n9k6m51l3mrj9l3l5qtbko8gfuongqao.apps.googleusercontent.com",
+          "client_id": "212944158673-4tn4elgt5ug26iukr0uvl88f72msh206.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBlhrRJ4jzPrsfKabHWYR27pUIIJkSIGF8"
+          "current_key": "AIzaSyAxfWFK5RkafVD7pKGV0lhXTl-9KYKzOO0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "868399583029-n9k6m51l3mrj9l3l5qtbko8gfuongqao.apps.googleusercontent.com",
+              "client_id": "212944158673-4tn4elgt5ug26iukr0uvl88f72msh206.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
