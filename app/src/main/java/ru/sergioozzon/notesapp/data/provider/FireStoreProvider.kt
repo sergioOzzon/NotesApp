@@ -13,47 +13,42 @@ class FireStoreProvider : RemoteDataProvider {
         private const val NOTES_COLLECTION = "notes"
     }
 
-    private val store = FirebaseFirestore.getInstance()
+    private val store: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
     private val noteReference = store.collection(NOTES_COLLECTION)
 
-    override fun subscribeToAllNotes(): LiveData<NoteResult> {
-        val result = MutableLiveData<NoteResult>()
+    override fun subscribeToAllNotes() = MutableLiveData<NoteResult>().apply {
         noteReference.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             firebaseFirestoreException?.let {
-                result.value = NoteResult.Error(firebaseFirestoreException)
+                value = NoteResult.Error(firebaseFirestoreException)
             } ?: let {
                 querySnapshot?.let { snapshot ->
-                    val notes = mutableListOf<Note>()
+                    /*val notes = mutableListOf<Note>()
                     for (doc: QueryDocumentSnapshot in snapshot) {
                         notes.add(doc.toObject(Note::class.java))
                     }
-                    result.value = NoteResult.Success(notes)
+                    value = NoteResult.Success(notes)*/
+                    value = NoteResult.Success(snapshot.map { it.toObject(Note::class.java) })
                 }
 
             }
         }
-        return result
     }
 
-    override fun getNoteById(id: String): LiveData<NoteResult> {
-        val result = MutableLiveData<NoteResult>()
+    override fun getNoteById(id: String) = MutableLiveData<NoteResult>().apply {
         noteReference.document(id).get()
             .addOnSuccessListener { snapshot ->
-                result.value = NoteResult.Success(snapshot.toObject(Note::class.java))
+                value = NoteResult.Success(snapshot.toObject(Note::class.java))
             }.addOnFailureListener {
-                result.value = NoteResult.Error(it)
+                value = NoteResult.Error(it)
             }
-        return result
     }
 
-    override fun saveNote(note: Note): LiveData<NoteResult> {
-        val result = MutableLiveData<NoteResult>()
+    override fun saveNote(note: Note) = MutableLiveData<NoteResult>().apply {
         noteReference.document(note.id).set(note)
             .addOnSuccessListener {
-                result.value = NoteResult.Success(note)
+                value = NoteResult.Success(note)
             }.addOnFailureListener {
-                result.value = NoteResult.Error(it)
+                value = NoteResult.Error(it)
             }
-        return result
     }
 }
