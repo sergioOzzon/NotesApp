@@ -3,4 +3,7 @@
     <string name="new_note_title">Новая заметка</string>
     <string name="note_text">Текст заметки</string>
     <string name="log_out">Log out</string>
+    <string name="a_u_sure">Are you sure?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
