@@ -5,11 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Menu
 import android.view.MenuItem
-import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_note.*
+import org.jetbrains.anko.alert
 import org.koin.android.viewmodel.ext.android.viewModel
 import ru.sergioozzon.kotlin.notesapp.R
+import ru.sergioozzon.kotlin.notesapp.common.getColorInt
 import ru.sergioozzon.kotlin.notesapp.data.entity.Note
 import ru.sergioozzon.kotlin.notesapp.ui.base.BaseActivity
 import java.text.SimpleDateFormat
@@ -30,6 +32,7 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
     override val model: NoteViewModel by viewModel()
     override val layoutRes = R.layout.activity_note
     private var note: Note? = null
+    var color = Note.Color.WHITE
 
     private val textChangeListener = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
@@ -54,37 +57,47 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
             model.loadNote(it)
         } ?: let {
             supportActionBar?.title = getString(R.string.new_note_title)
+            initView()
         }
 
     }
 
     override fun renderData(data: NoteViewState.Data) {
         if (data.isDeleted) finish()
-
         this.note = data.note
-        supportActionBar?.title = this.note?.let {
-            SimpleDateFormat(DATE_TIME_FORMAT, Locale.getDefault()).format(note!!.lastChanged)
-        } ?: getString(R.string.new_note_title)
-
         initView()
     }
 
     private fun initView() {
         note?.let { note ->
-            et_title.setText(note.title)
-            et_body.setText(note.text)
-            val color = when (note.color) {
-                Note.Color.WHITE -> R.color.white
-                Note.Color.YELLOW -> R.color.yellow
-                Note.Color.GREEN -> R.color.green
-                Note.Color.BLUE -> R.color.blue
-                Note.Color.RED -> R.color.red
-                Note.Color.VIOLET -> R.color.violet
-                Note.Color.PINK -> R.color.pink
+            removeEditListener()
+            if (et_title.text.toString() != note.title){
+                et_title.setText(note.title)
             }
-            toolbar.setBackgroundColor(ContextCompat.getColor(this, color))
+            if (et_body.text.toString() != note.body){
+                et_body.setText(note.body)
+            }
+            toolbar.setBackgroundColor(note.color.getColorInt(this))
+            supportActionBar?.title = SimpleDateFormat(DATE_TIME_FORMAT, Locale.getDefault()).format(note.lastChanged)
+        } ?: let{
+            supportActionBar?.title = getString(R.string.new_note_title)
         }
 
+        setEditListener()
+
+        colorPicker.onColorClickListener = {
+            toolbar.setBackgroundColor(color.getColorInt(this))
+            color = it
+            saveNote()
+        }
+    }
+
+    private fun removeEditListener(){
+        et_title.removeTextChangedListener(textChangeListener)
+        et_body.removeTextChangedListener(textChangeListener)
+    }
+
+    private fun setEditListener(){
         et_title.addTextChangedListener(textChangeListener)
         et_body.addTextChangedListener(textChangeListener)
     }
@@ -94,12 +107,14 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
 
         note = note?.copy(
             title = et_title.text.toString(),
-            text = et_body.text.toString(),
-            lastChanged = Date()
+            body = et_body.text.toString(),
+            lastChanged = Date(),
+            color = color
         ) ?: Note(
             UUID.randomUUID().toString(),
             et_title.text.toString(),
-            et_body.text.toString()
+            et_body.text.toString(),
+            color
         )
 
         note?.let {
@@ -107,12 +122,30 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        android.R.id.home -> {
-            onBackPressed()
-            true
-        }
+    override fun onCreateOptionsMenu(menu: Menu?) = menuInflater.inflate(R.menu.note, menu).let {
+        true
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        android.R.id.home -> onBackPressed().let { true }
+        R.id.colorPallete -> togglePallete().let {true}
+        R.id.deleteNote -> deleteNote().let {true}
         else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun deleteNote() {
+        alert {
+            messageResource = R.string.note_delete_message
+            negativeButton(R.string.no) {dialog -> dialog.dismiss()}
+            positiveButton(R.string.yes) { model.deleteNote() }
+        }.show()
+    }
+
+    private fun togglePallete(){
+        if(colorPicker.isOpen){
+            colorPicker.close()
+        } else {
+            colorPicker.open()
+        }
     }
 }

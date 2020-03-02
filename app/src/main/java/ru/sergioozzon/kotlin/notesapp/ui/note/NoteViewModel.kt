@@ -1,6 +1,5 @@
 package ru.sergioozzon.kotlin.notesapp.ui.note
 
-import androidx.lifecycle.Observer
 import ru.sergioozzon.kotlin.notesapp.data.NotesRepository
 import ru.sergioozzon.kotlin.notesapp.data.entity.Note
 import ru.sergioozzon.kotlin.notesapp.data.model.NoteResult

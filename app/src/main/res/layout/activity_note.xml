@@ -17,6 +17,24 @@
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             app:title="Notes App" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimaryDark"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <ru.sergioozzon.kotlin.notesapp.ui.customviews.ColorPickerView
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@+id/colorPicker"
+                android:backgroundTint="@color/white"/>
+
+        </HorizontalScrollView>
+
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -30,7 +48,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Заголовок"
+            android:hint="@string/name_of_the_note"
             android:textColorHint="@android:color/black">
 
             <com.google.android.material.textfield.TextInputEditText

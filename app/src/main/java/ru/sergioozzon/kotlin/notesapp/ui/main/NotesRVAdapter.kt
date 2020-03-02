@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_note.view.*
 import ru.sergioozzon.kotlin.notesapp.R
+import ru.sergioozzon.kotlin.notesapp.common.getColorRes
 import ru.sergioozzon.kotlin.notesapp.data.entity.Note
 
 class NotesRVAdapter(val onItemViewClick: ((Note) -> Unit)? = null) :
@@ -33,20 +34,13 @@ class NotesRVAdapter(val onItemViewClick: ((Note) -> Unit)? = null) :
         fun bind(note: Note) = with(itemView) {
             //плохо для производительности, тк каждый раз при вызове bind будет вызываться findViewById
             with(note) {
-                tv_text.text = text
+                tv_text.text = body
                 tv_title.text = title
 
             }
 
-            val color = when (note.color) {
-                Note.Color.WHITE -> R.color.white
-                Note.Color.YELLOW -> R.color.yellow
-                Note.Color.GREEN -> R.color.green
-                Note.Color.BLUE -> R.color.blue
-                Note.Color.RED -> R.color.red
-                Note.Color.VIOLET -> R.color.violet
-                Note.Color.PINK -> R.color.pink
-            }
+            val color = note.color.getColorRes()
+
             (this as CardView).setCardBackgroundColor(
                 ContextCompat.getColor(
                     itemView.context,
