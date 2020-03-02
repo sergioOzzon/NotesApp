@@ -4,9 +4,9 @@ import ru.sergioozzon.kotlin.notesapp.data.NotesRepository
 import ru.sergioozzon.kotlin.notesapp.data.errors.NoAuthException
 import ru.sergioozzon.kotlin.notesapp.ui.base.BaseViewModel
 
-class SplashViewModel() : BaseViewModel<Boolean?, SplashViewState>() {
+class SplashViewModel(private val notesRepository: NotesRepository) : BaseViewModel<Boolean?, SplashViewState>() {
     fun requestUser(){
-        NotesRepository.getCurrentUser().observeForever{
+        notesRepository.getCurrentUser().observeForever{
             viewStateLiveData.value = if (it!=null){
                 SplashViewState(authenticad = true)
             } else{

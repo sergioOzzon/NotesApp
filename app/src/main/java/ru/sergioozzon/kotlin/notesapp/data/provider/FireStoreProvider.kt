@@ -1,5 +1,6 @@
 package ru.sergioozzon.kotlin.notesapp.data.provider
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
@@ -9,17 +10,15 @@ import ru.sergioozzon.kotlin.notesapp.data.entity.User
 import ru.sergioozzon.kotlin.notesapp.data.errors.NoAuthException
 import ru.sergioozzon.kotlin.notesapp.data.model.NoteResult
 
-class FireStoreProvider : RemoteDataProvider {
+class FireStoreProvider(private val firebaseAuth: FirebaseAuth, private val store: FirebaseFirestore) : RemoteDataProvider {
 
     companion object {
         private const val NOTES_COLLECTION = "notes"
         private const val USER_COLLECTION = "users"
     }
 
-    private val store by lazy { FirebaseFirestore.getInstance() }
-
     private val currentUser
-        get() = FirebaseAuth.getInstance().currentUser
+        get() = firebaseAuth.currentUser
 
     private val userNotesCollection: CollectionReference
         get() = currentUser?.let {
@@ -74,6 +73,19 @@ class FireStoreProvider : RemoteDataProvider {
             userNotesCollection.document(note.id).set(note)
                 .addOnSuccessListener {
                     value = NoteResult.Success(note)
+                }.addOnFailureListener {
+                    value = NoteResult.Error(it)
+                }
+        } catch (e: Throwable){
+            value = NoteResult.Error(e)
+        }
+    }
+
+    override fun deleteNote(noteId: String) : LiveData<NoteResult> = MutableLiveData<NoteResult>().apply {
+        try{
+            userNotesCollection.document(noteId).delete()
+                .addOnSuccessListener {
+                    value = NoteResult.Success(null)
                 }.addOnFailureListener {
                     value = NoteResult.Error(it)
                 }

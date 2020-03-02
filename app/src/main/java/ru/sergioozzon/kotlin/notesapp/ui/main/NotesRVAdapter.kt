@@ -53,7 +53,6 @@ class NotesRVAdapter(val onItemViewClick: ((Note) -> Unit)? = null) :
                     color
                 )
             )
-
             itemView.setOnClickListener { onItemViewClick?.invoke(note) }
         }
     }
