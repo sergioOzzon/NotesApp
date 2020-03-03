@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Заметки</string>
+    <string name="new_note_title">Новая заметка</string>
+    <string name="note_text">Текст заметки</string>
+    <string name="log_out_dialog">Выход</string>
+    <string name="logout_gialog_message">Вы уверены?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="set_color">установить цвет</string>
+    <string name="note_delete_message">Удалить заметку?</string>
+    <string name="name_of_the_note">Имя заметки</string>
+</resources>
