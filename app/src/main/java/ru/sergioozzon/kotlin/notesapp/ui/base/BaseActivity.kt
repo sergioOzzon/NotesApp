@@ -70,7 +70,7 @@ abstract class BaseActivity<T, S : BaseViewState<T>> : AppCompatActivity() {
         }
     }
 
-    protected fun showError(error: String) {
+    private fun showError(error: String) {
         Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
     }
 
