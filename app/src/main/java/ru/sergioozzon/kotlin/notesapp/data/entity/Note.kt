@@ -8,7 +8,7 @@ import java.util.*
 data class Note(
     val id: String = "",
     val title: String = "",
-    val text: String = "",
+    val body: String = "",
     val color: Color = Color.WHITE,
     val lastChanged: Date = Date()
 ) : Parcelable {
@@ -25,7 +25,7 @@ data class Note(
     override fun hashCode(): Int {
         var result = id.hashCode()
         result = 31 * result + title.hashCode()
-        result = 31 * result + text.hashCode()
+        result = 31 * result + body.hashCode()
         result = 31 * result + color.hashCode()
         return result
     }

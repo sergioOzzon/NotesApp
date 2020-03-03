@@ -4,6 +4,7 @@
     <item>
         <bitmap
             android:src="@drawable/paper"
+            android:tintMode="screen"
             android:gravity="center"/>
     </item>
 </layer-list>
